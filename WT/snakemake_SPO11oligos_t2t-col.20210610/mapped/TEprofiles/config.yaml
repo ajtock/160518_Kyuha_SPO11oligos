@@ -1,0 +1,47 @@
+THREADS: 32
+SAMPLE: [
+         "WT_SPO11oligos_Rep1",
+         "WT_SPO11oligos_Rep2",
+         "WT_SPO11oligos_Rep3"
+        ]
+FEATURES:
+      chrName: [
+                "Chr1_Chr2_Chr3_Chr4_Chr5",
+                "Chr1",
+                "Chr2",
+                "Chr3",
+                "Chr4",
+                "Chr5"
+               ]
+      superfamName: [
+                     "RNA",
+                     "DNA"
+#                     "All",
+#                     "Copia_LTR",
+#                     "EnSpm",
+#                     "Gypsy_LTR",
+#                     "Harbinger",
+#                     "hAT",
+#                     "Helitron",
+#                     "LINE1",
+#                     "MuDR",
+#                     "Pogo_Tc1_Mariner",
+#                     "SINE"
+#                     "Unclassified",
+#                     "Unclassified_DNA",
+#                     "Unclassified_LINE",
+#                     "Unclassified_LTR"
+                    ]
+MAPPING:
+      mode: "both"
+      reference: "data/index/t2t-col.20210610"
+COVERAGE:
+      regionBodyLength: 2000
+      startLabel: "Start"
+      endLabel: "End"
+      upstream: 2000
+      downstream: 2000
+      flankName: "2kb"
+      binSize: 10
+      binName: "10bp"
+      sortRegions: "keep"

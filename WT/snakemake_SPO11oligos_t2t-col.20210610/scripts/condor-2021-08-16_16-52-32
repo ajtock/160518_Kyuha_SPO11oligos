@@ -1,0 +1,18 @@
+# pwd : /home/ajt200/analysis/160518_Kyuha_SPO11oligos/WT/snakemake_SPO11oligos_t2t-col.20210610/scripts
+
+Universe   = vanilla
+Executable = /bin/bash
+Transfer_executable = False
+should_transfer_files = NO
+Arguments = "/home/ajt200/analysis/160518_Kyuha_SPO11oligos/WT/snakemake_SPO11oligos_t2t-col.20210610/scripts/bigwigCompare_log2ChIPcontrol_bw.sh WT_SPO11oligos_Rep1 WT_gDNA_Rep1_R1 1000 1kb 48"
+Requirements = OpSys == "LINUX" && Arch == "X86_64"  && TARGET.FileSystemDomain == "plantsci.internal.cam.ac.uk"
+rank = -LoadAvg
+request_memory = 50000
+request_cpus = 48
+getenv = True
+Log = log-2021-08-16_16-52-32.txt
+Input = 
+Output = stdout-2021-08-16_16-52-32.txt
+Error = error-2021-08-16_16-52-32.txt
+Notification = never
+Queue

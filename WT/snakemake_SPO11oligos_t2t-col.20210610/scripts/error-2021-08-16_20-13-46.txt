@@ -1,0 +1,10 @@
+Preloading the following deepBlue files: /home/ajt200/analysis/150701_Natasha_gDNA/WT/R1/snakemake_SPO11oligos_t2t-col.20210610/mapped/both/bw/WT_gDNA_Rep3_R1_MappedOn_t2t-col.20210610_lowXM_both_sort_norm.bw
+Traceback (most recent call last):
+  File "/home/ajt200/miniconda3/envs/ChIPseq_mapping/bin/bigwigCompare", line 12, in <module>
+    main(args)
+  File "/home/ajt200/miniconda3/envs/ChIPseq_mapping/lib/python3.6/site-packages/deeptools/bigwigCompare.py", line 140, in main
+    foo = db.deepBlue(deepBlueFiles[0][0], url=args.deepBlueURL, userKey=args.userKey)
+  File "/home/ajt200/miniconda3/envs/ChIPseq_mapping/lib/python3.6/site-packages/deeptools/deepBlue.py", line 140, in __init__
+    raise RuntimeError("The requested sample({}) has no associated experiment! If you did not intend to use samples on deepBlue, then it appears either you misspelled a file name or (if you're using BAM files for input) one of your BAM files is lacking a valid index.".format(sample))
+RuntimeError: The requested sample(/home/ajt200/analysis/150701_Natasha_gDNA/WT/R1/snakemake_SPO11oligos_t2t-col.20210610/mapped/both/bw/WT_gDNA_Rep3_R1_MappedOn_t2t-col.20210610_lowXM_both_sort_norm.bw) has no associated experiment! If you did not intend to use samples on deepBlue, then it appears either you misspelled a file name or (if you're using BAM files for input) one of your BAM files is lacking a valid index.
+DeprecationWarning: 'source deactivate' is deprecated. Use 'conda deactivate'.

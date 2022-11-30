@@ -1,0 +1,189 @@
+# Snakemake workflow for creating a matrix of windowed
+# coverage values for genomic features and flanking regions 
+
+# Usage ("--cores" should match the "THREADS" parameter in config.yaml, and reflect available threads):
+# conda activate ChIPseq_mapping
+# snakemake -p --cores 48
+# conda deactivate
+
+import os
+
+# Specify config file parameters
+configfile: "config.yaml"
+sample    = config["SAMPLE"]
+chrName   = config["FEATURES"]["chrName"]
+reference = config["MAPPING"]["reference"]
+refbase   = os.path.basename(reference)
+mode      = config["MAPPING"]["mode"]
+flankName = config["COVERAGE"]["flankName"]
+binName   = config["COVERAGE"]["binName"]
+
+# Specify the desired end target file(s)
+rule all:
+    input:
+        expand("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_matrix_bin{binName}_flank{flankName}.tab",
+               sample = sample,
+               refbase = refbase,
+               mode = mode,
+               chrName = chrName,
+               binName = binName,
+               flankName = flankName),
+        expand("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.tab",
+               sample = sample,
+               refbase = refbase,
+               mode = mode,
+               chrName = chrName,
+               binName = binName,
+               flankName = flankName),
+        expand("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_matrix_bin{binName}_flank{flankName}.tab",
+               sample = sample,
+               refbase = refbase,
+               mode = mode,
+               chrName = chrName,
+               binName = binName,
+               flankName = flankName),
+        expand("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.tab",
+               sample = sample,
+               refbase = refbase,
+               mode = mode,
+               chrName = chrName,
+               binName = binName,
+               flankName = flankName),
+        expand("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_matrix_bin{binName}_flank{flankName}.tab",
+               sample = sample,
+               refbase = refbase,
+               mode = mode,
+               chrName = chrName,
+               binName = binName,
+               flankName = flankName),
+        expand("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.tab",
+               sample = sample,
+               refbase = refbase,
+               mode = mode,
+               chrName = chrName,
+               binName = binName,
+               flankName = flankName),
+
+
+# Use computeMatrix function from deepTools to create a matrix of
+# coverage values for genomic features and flanking regions, and
+# for equivalent random loci and flanking regions
+rule compute_matrix_genomeRegionFeatures:
+    """Create matrices of coverage values for genomic features and random loci"""
+    input:
+        genomewide_peaksFile  = "/home/ajt200/analysis/HTA6_HTA7_leaf_Lorkovic_Berger_2017_CurrBiol/peaks/PeakRanger1.18/ranger/H2A_input_p0.05_q0.05/BED/HTA7_ChIP_SRR5298546_peaks_genomewide_{chrName}.bed",
+        genomewide_ranLocFile = "/home/ajt200/analysis/HTA6_HTA7_leaf_Lorkovic_Berger_2017_CurrBiol/peaks/PeakRanger1.18/ranger/H2A_input_p0.05_q0.05/BED/HTA7_ChIP_SRR5298546_peaks_genomewide_{chrName}_randomLoci.bed",
+        arm_peaksFile         = "/home/ajt200/analysis/HTA6_HTA7_leaf_Lorkovic_Berger_2017_CurrBiol/peaks/PeakRanger1.18/ranger/H2A_input_p0.05_q0.05/BED/HTA7_ChIP_SRR5298546_peaks_arm_{chrName}.bed",
+        arm_ranLocFile        = "/home/ajt200/analysis/HTA6_HTA7_leaf_Lorkovic_Berger_2017_CurrBiol/peaks/PeakRanger1.18/ranger/H2A_input_p0.05_q0.05/BED/HTA7_ChIP_SRR5298546_peaks_arm_{chrName}_randomLoci.bed",
+        peri_peaksFile        = "/home/ajt200/analysis/HTA6_HTA7_leaf_Lorkovic_Berger_2017_CurrBiol/peaks/PeakRanger1.18/ranger/H2A_input_p0.05_q0.05/BED/HTA7_ChIP_SRR5298546_peaks_peri_{chrName}.bed",
+        peri_ranLocFile       = "/home/ajt200/analysis/HTA6_HTA7_leaf_Lorkovic_Berger_2017_CurrBiol/peaks/PeakRanger1.18/ranger/H2A_input_p0.05_q0.05/BED/HTA7_ChIP_SRR5298546_peaks_peri_{chrName}_randomLoci.bed",
+        BW                    = "../{mode}/bw/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm.bw"
+    output:
+        genomewide_peaksGZ    = temp("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_matrix_bin{binName}_flank{flankName}.gz"),
+        genomewide_peaksTAB   = "matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_matrix_bin{binName}_flank{flankName}.tab",
+        genomewide_ranLocGZ   = temp("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.gz"),
+        genomewide_ranLocTAB  = "matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.tab",
+        arm_peaksGZ           = temp("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_matrix_bin{binName}_flank{flankName}.gz"),
+        arm_peaksTAB          = "matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_matrix_bin{binName}_flank{flankName}.tab",
+        arm_ranLocGZ          = temp("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.gz"),
+        arm_ranLocTAB         = "matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.tab",
+        peri_peaksGZ          = temp("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_matrix_bin{binName}_flank{flankName}.gz"),
+        peri_peaksTAB         = "matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_matrix_bin{binName}_flank{flankName}.tab",
+        peri_ranLocGZ         = temp("matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.gz"),
+        peri_ranLocTAB        = "matrices/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.tab"
+    params:
+        regionBodyLength = config["COVERAGE"]["regionBodyLength"],
+        startLabel       = config["COVERAGE"]["startLabel"],
+        endLabel         = config["COVERAGE"]["endLabel"],
+        upstream         = config["COVERAGE"]["upstream"],
+        downstream       = config["COVERAGE"]["downstream"],
+        binSize          = config["COVERAGE"]["binSize"],
+        sortRegions      = config["COVERAGE"]["sortRegions"]
+    log:
+        genomewide_peaks      = "logs/computeMatrix/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_matrix_bin{binName}_flank{flankName}.log",
+        genomewide_ranLoc     = "logs/computeMatrix/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_genomewide_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.log",
+        arm_peaks             = "logs/computeMatrix/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_matrix_bin{binName}_flank{flankName}.log",
+        arm_ranLoc            = "logs/computeMatrix/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_arm_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.log",
+        peri_peaks            = "logs/computeMatrix/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_matrix_bin{binName}_flank{flankName}.log",
+        peri_ranLoc           = "logs/computeMatrix/{sample}_MappedOn_{refbase}_lowXM_{mode}_sort_norm_HTA7peaks_peri_in_{chrName}_ranLoc_matrix_bin{binName}_flank{flankName}.log"
+    threads:
+        config["THREADS"]
+    shell:
+        "(computeMatrix scale-regions"
+        " --regionsFileName {input.genomewide_peaksFile}"
+        " --scoreFileName {input.BW}"
+        " --outFileName {output.genomewide_peaksGZ}"
+        " --outFileNameMatrix {output.genomewide_peaksTAB}"
+        " --regionBodyLength {params.regionBodyLength}"
+        " --startLabel {params.startLabel}"
+        " --endLabel {params.endLabel}"
+        " --upstream {params.upstream}"
+        " --downstream {params.downstream}"
+        " --binSize {params.binSize}"
+        " --sortRegions {params.sortRegions}"
+        " --numberOfProcessors {threads}) 2> {log.genomewide_peaks}; "
+        "(computeMatrix scale-regions"
+        " --regionsFileName {input.genomewide_ranLocFile}"
+        " --scoreFileName {input.BW}"
+        " --outFileName {output.genomewide_ranLocGZ}"
+        " --outFileNameMatrix {output.genomewide_ranLocTAB}"
+        " --regionBodyLength {params.regionBodyLength}"
+        " --startLabel {params.startLabel}"
+        " --endLabel {params.endLabel}"
+        " --upstream {params.upstream}"
+        " --downstream {params.downstream}"
+        " --binSize {params.binSize}"
+        " --sortRegions {params.sortRegions}"
+        " --numberOfProcessors {threads}) 2> {log.genomewide_ranLoc}; "
+        "(computeMatrix scale-regions"
+        " --regionsFileName {input.arm_peaksFile}"
+        " --scoreFileName {input.BW}"
+        " --outFileName {output.arm_peaksGZ}"
+        " --outFileNameMatrix {output.arm_peaksTAB}"
+        " --regionBodyLength {params.regionBodyLength}"
+        " --startLabel {params.startLabel}"
+        " --endLabel {params.endLabel}"
+        " --upstream {params.upstream}"
+        " --downstream {params.downstream}"
+        " --binSize {params.binSize}"
+        " --sortRegions {params.sortRegions}"
+        " --numberOfProcessors {threads}) 2> {log.arm_peaks}; "
+        "(computeMatrix scale-regions"
+        " --regionsFileName {input.arm_ranLocFile}"
+        " --scoreFileName {input.BW}"
+        " --outFileName {output.arm_ranLocGZ}"
+        " --outFileNameMatrix {output.arm_ranLocTAB}"
+        " --regionBodyLength {params.regionBodyLength}"
+        " --startLabel {params.startLabel}"
+        " --endLabel {params.endLabel}"
+        " --upstream {params.upstream}"
+        " --downstream {params.downstream}"
+        " --binSize {params.binSize}"
+        " --sortRegions {params.sortRegions}"
+        " --numberOfProcessors {threads}) 2> {log.arm_ranLoc}; "
+        "(computeMatrix scale-regions"
+        " --regionsFileName {input.peri_peaksFile}"
+        " --scoreFileName {input.BW}"
+        " --outFileName {output.peri_peaksGZ}"
+        " --outFileNameMatrix {output.peri_peaksTAB}"
+        " --regionBodyLength {params.regionBodyLength}"
+        " --startLabel {params.startLabel}"
+        " --endLabel {params.endLabel}"
+        " --upstream {params.upstream}"
+        " --downstream {params.downstream}"
+        " --binSize {params.binSize}"
+        " --sortRegions {params.sortRegions}"
+        " --numberOfProcessors {threads}) 2> {log.peri_peaks}; "
+        "(computeMatrix scale-regions"
+        " --regionsFileName {input.peri_ranLocFile}"
+        " --scoreFileName {input.BW}"
+        " --outFileName {output.peri_ranLocGZ}"
+        " --outFileNameMatrix {output.peri_ranLocTAB}"
+        " --regionBodyLength {params.regionBodyLength}"
+        " --startLabel {params.startLabel}"
+        " --endLabel {params.endLabel}"
+        " --upstream {params.upstream}"
+        " --downstream {params.downstream}"
+        " --binSize {params.binSize}"
+        " --sortRegions {params.sortRegions}"
+        " --numberOfProcessors {threads}) 2> {log.peri_ranLoc}"

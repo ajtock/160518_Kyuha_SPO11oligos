@@ -1,0 +1,25 @@
+THREADS: 32
+SAMPLE: [
+         "WT_SPO11oligos_Rep1",
+         "WT_SPO11oligos_Rep2",
+         "WT_SPO11oligos_Rep3"
+        ]
+FEATURES:
+      chrName: ["Chr1",
+                "Chr2",
+                "Chr3",
+                "Chr4",
+                "Chr5"]
+MAPPING:
+      mode: "both"
+      reference: "data/index/t2t-col.20210610"
+COVERAGE:
+      regionBodyLength: 180
+      startLabel: "Start"
+      endLabel: "End"
+      upstream: 2000
+      downstream: 2000
+      flankName: "2kb"
+      binSize: 10
+      binName: "10bp"
+      sortRegions: "keep"

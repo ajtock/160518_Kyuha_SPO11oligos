@@ -1,0 +1,59 @@
+000 (240304.000.000) 08/16 20:13:32 Job submitted from host: <172.24.252.201:9865?addrs=172.24.252.201-9865+[--1]-9865>
+...
+022 (240304.000.000) 08/16 20:23:42 Job disconnected, attempting to reconnect
+    Socket between submit and execute hosts closed unexpectedly
+    Trying to reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk <172.24.252.203:10450?addrs=172.24.252.203-10450>
+...
+024 (240304.000.000) 08/16 20:23:42 Job reconnection failed
+    Job not found at execution machine
+    Can not reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk, rescheduling job
+...
+022 (240304.000.000) 08/16 20:24:42 Job disconnected, attempting to reconnect
+    Socket between submit and execute hosts closed unexpectedly
+    Trying to reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk <172.24.252.203:10450?addrs=172.24.252.203-10450>
+...
+024 (240304.000.000) 08/16 20:24:42 Job reconnection failed
+    Job not found at execution machine
+    Can not reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk, rescheduling job
+...
+022 (240304.000.000) 08/16 20:25:42 Job disconnected, attempting to reconnect
+    Socket between submit and execute hosts closed unexpectedly
+    Trying to reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk <172.24.252.203:10450?addrs=172.24.252.203-10450>
+...
+024 (240304.000.000) 08/16 20:25:42 Job reconnection failed
+    Job not found at execution machine
+    Can not reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk, rescheduling job
+...
+022 (240304.000.000) 08/16 20:26:42 Job disconnected, attempting to reconnect
+    Socket between submit and execute hosts closed unexpectedly
+    Trying to reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk <172.24.252.203:10450?addrs=172.24.252.203-10450>
+...
+024 (240304.000.000) 08/16 20:26:42 Job reconnection failed
+    Job not found at execution machine
+    Can not reconnect to slot1_1@node9.plantsci.internal.cam.ac.uk, rescheduling job
+...
+001 (240304.000.000) 08/16 20:26:44 Job executing on host: <172.24.252.195:10497?addrs=172.24.252.195-10497+[--1]-10497>
+...
+006 (240304.000.000) 08/16 20:26:53 Image size of job updated: 1308424
+	1278  -  MemoryUsage of job (MB)
+	1308424  -  ResidentSetSize of job (KB)
+...
+006 (240304.000.000) 08/16 20:31:54 Image size of job updated: 5139360
+	5019  -  MemoryUsage of job (MB)
+	5139360  -  ResidentSetSize of job (KB)
+...
+005 (240304.000.000) 08/16 20:38:53 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 02:09:05, Sys 0 00:00:25  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 02:09:05, Sys 0 00:00:25  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated
+	   Cpus                 :                24        24
+	   Disk (KB)            :     1250     1250  35495818
+	   Memory (MB)          :     5019    40000     40000
+...
